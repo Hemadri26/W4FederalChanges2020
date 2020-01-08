@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html manifest="W2Online.manifest">
+  <head>
+    <meta charset="utf-8">
+    <title>ESS - W2/W4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=edge;">
+    <!-- Le styles -->
+    <link href="CommonComp/lib/css/bootstrap-cerulean.css" rel="stylesheet">
+    <link href="CommonComp/lib/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="CommonComp/lib/css/mobiscroll.core-2.1.css" rel="stylesheet" type="text/css" />
+    <link href="CommonComp/lib/css/mobiscroll.ios-2.1.css" rel="stylesheet" type="text/css" />
+    <link href="CommonComp/lib/css/mobiscroll.animation-2.1.css" rel="stylesheet" type="text/css" />
+    <link href="CommonComp/css/ess2.css" rel="stylesheet">
+    <link href="ApplicationComp/W2-W4/css/w2.css" rel="stylesheet">
+    <link href="CommonComp/lib/css/jquery.alerts.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="ApplicationComp/W2-W4/css/switchButton.css" type="text/css" />
+    <script language="javascript">
+      // Convenience array of status values
+      var cacheStatusValues = [];
+      cacheStatusValues[0] = 'uncached';
+      cacheStatusValues[1] = 'idle';
+      cacheStatusValues[2] = 'checking';
+      cacheStatusValues[3] = 'downloading';
+      cacheStatusValues[4] = 'updateready';
+      cacheStatusValues[5] = 'obsolete';
+      // Listeners for all possible events
+      var cache = window.applicationCache;
+      cache.addEventListener('cached', logEvent, false);
+      cache.addEventListener('checking', logEvent, false);
+      cache.addEventListener('downloading', logEvent, false);
+      cache.addEventListener('error', logEvent, false);
+      cache.addEventListener('noupdate', logEvent, false);
+      cache.addEventListener('obsolete', logEvent, false);
+      cache.addEventListener('progress', logEvent, false);
+      cache.addEventListener('updateready', logEvent, false);
+      // Log every event to the console
+      function logEvent(e) {
+        var online, status, type, message;
+        online = (isOnline()) ? 'yes' : 'no';
+        status = cacheStatusValues[cache.status];
+        type = e.type;
+        message = 'online: ' + online;
+        message += ', event: ' + type;
+        message += ', status: ' + status;
+        if(type == 'error' && navigator.onLine) {
+          message += ' There was an unknown error, check your Cache Manifest.';
+        }
+        if(type == "updateready") {
+          location.reload();
+        }
+      }
+      function log(s) {
+      }
+      function isOnline() {
+        return navigator.onLine;
+      }
+      // Swap in newly download files when update is ready
+      cache.addEventListener('updateready', function(e) {
+        // Dont perform swap if this is the first cache
+        if(cacheStatusValues[cache.status] != 'idle') {
+          cache.swapCache();
+        }
+      }, false);
+    </script>
+  </head>
+  <body>
+    <div class="right-panel">
+      <div class="navbar" id='main-title'>
+        <span id="btn-home"></span>
+        <span id=""></span>
+        <img src="CommonComp/img/title-p2.png" class="show-on-portrait">
+        <img src="CommonComp/img/title-l2.png" class="show-on-landscape">
+      </div>
+      <div id="scroll-wrapper">
+        <div class="container" id="content">
+          <div class="container overview" id="inner-content">
+            <div class='row'>
+              <div class='span12'>
+                <h1 id="w2Heading" class="normal" data-localize="title.w2title">Online W-2 Form</h1>
+                <h1 id="w4Heading" class="normal" ></h1>
+              </div>
+            </div>
+            <div class="hero-unit clearfix">
+              <div class="clearfix" id="personInfo-top">
+                <div class="container" id="personal-info">
+                  <div id="personInfo-head-image">
+                    <img src="CommonComp/img/man.png">
+                  </div>
+                  <div class="top-title-font" id="personInfo-head-name">
+                    <div data-localize="label.name">
+                      Name
+                    </div>
+                    <div id="name" class="head-font" ></div>
+                  </div>
+                  <div class="top-title-font" id="personInfo-head-NO">
+                    <div data-localize="label.personnelNo">
+                      Personnel No.
+                    </div>
+                    <div id="personnelNo" class="head-font">
+                      <!--N/A-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="overview-page" class="pages">
+                <div>
+                  <div class="clearfix">
+                    <div class="pull-left full-width">
+                      <div class="collapsible-block" id="collapsible-block"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="edit-page" class="pages">
+                <div class="grey-background" id="edit-content">
+                  <div class="head-font edit-head-title">
+                    <div class=" addrType section-title" data-localize="label.W4Info">
+                      W-4 Information
+                    </div>
+                  </div>
+                  <div class="clearfix">
+                    <div class="pull-left edit-table" id="edit-table">
+                      <div class="filing-status top-margin justify" data-id="FilingStatus">
+                        <div class = "label-medium label-text right-margin">
+                          <span class="labelName hide"></span>
+                          <span>Filing status</span>
+                          <span class="red-star hidden">*</span>
+                        </div>
+                        <div class="read-only hidden"></div>
+                        <select enabled class = "edit-only" id="Status">
+                        </select>
+                        <div class="NameInstruction" data-localize="template.alien">
+                          * If married, but legally separated, or spouse is a nonresident alien, select the 'Single' option.
+                        </div>
+                      </div>
+                      <div class="LastNameDiffer top-margin justify" data-id="LastName_SSNcheck">
+                        <div class="label-medium label-text align-top  right-margin">
+                          Your last name differs from that shown on social security card.
+                        </div>
+                        <div class="onoffswitch switch2 edit-only" id="w4NewSwich">
+                          <input type="checkbox"  class="onoffswitch-checkbox" id="myonoffswitch1" checked="checked">
+                          <label class="onoffswitch-label" for="myonoffswitch1"> <div class="w4onoffswitch-inner"></div> <div class="onoffswitch-switch"></div> </label>
+                        </div>
+                        <div class="NameInstruction"  data-localize="template.cardReplace">
+                          *You must call 1-800-772-1213 for a replacement card.
+                        </div>
+                      </div>
+                      <div class="nonResidentAlien top-margin justify" data-id="NonResi_Alien">
+                        <div class = "label-medium label-text align-top right-margin top-margin">
+                          <span id="nonResidentAlien" data-localize="label.nonResidentAlien">Non Resident Alien</span>
+                          <span class="red-star hidden">*</span>
+                        </div>
+                        <div class="read-only hidden"></div>
+                        <div class="onoffswitch switch1 input-large edit-only" id="AlienSwitch">
+                          <input type="checkbox"  class="onoffswitch-checkbox" id="myonoffswitch0" checked="checked">
+                          <label class="onoffswitch-label" for="myonoffswitch0"> <div class="w4onoffswitch-inner"></div> <div class="onoffswitch-switch"></div> </label>
+                        </div>
+                      </div>
+                      <div class="edit-page-content"></div>
+                    </div>
+                  </div>
+                  <div class="top-margin justify">
+                    <div id="w4Info" class = "">
+                      <span class="red-star show">*</span>
+                      <span class="declairHeading"> Declaration:</span></br>
+                      <div class="check3">
+                        <input type="checkbox" id="confirmationCheckbox">
+                        <span class="declairTxt">Under penaltiesss of perjury, I declared that I have examined this certificate and to the best of my knowledge and belief, it is true, correct, and complete. 05/01/2013</span>
+                      </div>
+                      <div class="pull-right margin-top" >
+                        <a href="#" id="btn-edit-submit" ><span class="btn-icon icon-pencil btn-edit" data-localize="btn.save">save</span></a>
+                        <a href="#" id="btn-edit-cancel" ><span class="btn-icon icon-pencil btn-edit" data-localize="btn.cancel">cancel</span></a>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="bold">
+                      <div class="FooterImage">
+                        <span><img id="Info" src="CommonComp/img/Information.png" onclick="editapp.PopUpBox()"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="FootMenu" class="footer" align="center">
+            <a href="#" onclick="overviewapp.onW2Click()"><span class="btn-icon icon-pencil btn-edit" data-localize="btn.w2">W2</span></a>
+            <a href="#" id="W4FooterButton" onclick="overviewapp.onW4Click()"><span class="btn-icon icon-pencil btn-edit" data-localize="btn.w4">W4</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Election template.It is hidden forever -->
+    <div id="election-template-w2" class="hide">
+      <div class="election-div grey-background">
+        <div class="head-font " >
+    <div class="election-content section-title1 ">
+            <div class="tax-company-div">
+<!--begin of change CHG1085356-->
+              <div class="pull-right switch-margin1 switch-button">
+              <div class="onoffswitch">
+                  <input type="checkbox"  class="onoffswitch-checkbox" id="myonoffswitch">
+                  <label class="onoffswitch-label" for="myonoffswitch" >
+                     <div class="onoffswitch-inner"></div>
+                     <div class="w2onoffswitch-switch" ></div>
+                   </label>
+                </div>
+              </div>
+            </div>
+      <!--End of change CHG1085356-->
+          </div>
+
+        </div>
+        <div class="clearfix">
+        </div>
+      </div>
+    </div>
+    <!-- collapsible template. It is hidden forever.-->
+    <div id="collapsible-template-w2" class="hide">
+      <div class="collapsible-div  grey-background">
+        <div class="section-title">
+          <span></span><img src="CommonComp/img/arrow-right-white.png">
+        </div>
+        <div class="collapsible-div-content">
+          <div class="collapsible-form">
+            <input type="radio" class="radio-set-margin"/>
+            <div class = "label-medium label-text label-left-margin"></div>
+            <div class="read-only show"></div>
+          </div>
+          <div class="pull-right">
+            <a href="#" data-href="" onclick="w2.callMyLilly(id)" id="" ><span class="btn-icon icon-pencil btn-view">View</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- collapsible template. It is hidden forever.-->
+    <div id="collapsible-template-w4" class="hide">
+      <div class="collapsible-div  grey-background">
+        <div class="section-title">
+          <span></span><img src="CommonComp/img/arrow-right-white.png">
+        </div>
+        <div class="collapsible-content-box"></div>
+      </div>
+    </div>
+    <div class="collapsible-div-content hide w4-row" id="collapsible-div-content-w4-template">
+      <div class="collapsible-form overview-data">
+        <!--  <input type="radio" class="radio-set-margin"/>-->
+        <div class = "label-left-margin">
+          <div class="label-medium label-text taxAuthorityField" data-localize="label.taxAuthority">
+            Tax Authority
+          </div>
+          <div class="read-only show">
+            <div class="taxAuthority"></div>
+          </div>
+        </div>
+        <div>
+          <div class="label-medium label-text filingStatusField" data-localize="label.filingStatus">
+            Filing Status
+          </div>
+          <div class="read-only show">
+            <div class="filingStatus"></div>
+          </div>
+        </div>
+        <div>
+          <div class="label-medium label-text amount1Field">
+            <span class="allowances" data-localize="label.allowance">Total Number of Allowances</span>
+            <span class="exemptions" data-localize="label.exemption">Total Number of Exemptions</span>
+          </div>
+          <div class="read-only show">
+            <div class="amount1" maxlength="2"></div>
+          </div>
+        </div>
+        <div>
+          <div class="label-medium label-text amount2Field">
+            <span class="totalAmount" data-localize="label.additionalAmount">Total Amount</span>
+            <span class="addAmountt" data-localize="label.additionalAmount">Additional Amount</span>
+          </div>
+          <div class="read-only show">
+            <div class="amount2" maxlength="9"></div>
+          </div>
+        </div>
+        <div>
+          <div class="label-medium label-text validFromField" data-localize="label.validFrom">
+            Valid From
+          </div>
+          <div class="read-only show">
+            <div class="validFrom"></div>
+          </div>
+        </div>
+        <div>
+          <div class="label-medium label-text validToField" data-localize="label.validTo">
+            Valid To
+          </div>
+          <div class="read-only show">
+            <div class="validTo"></div>
+          </div>
+        </div>
+        <div class="pull-right btn-next">
+          <span class="btn-icon icon-pencil btn-edit" data-localize="btn.new">NEW</span>
+        </div>
+      </div>
+    </div>
+    <!--Election template.It is hidden forever -->
+    <div id="election-template-w4" class="hide">
+      <div class="election-div grey-background">
+        <div class="section-title withholding"></div>
+        <div class="head-font" >
+          <div class="collapsible-div">
+            <div class="section-title federal">
+              <span></span><img src="CommonComp/img/arrow-right-white.png">
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="pull-left full-width election-content">
+            <div class="collapsible-div-content">
+              <div class="collapsible-form">
+                <div class="tax-company-div">
+                  <div class = "label-medium label-text label-election-left-margin"></div>
+                  <div class="read-only show"></div>
+                  <div class="companyCode hide"></div>
+                  <div class="pull-right">
+                    <a href="#" data-href=""  id="" ><span class="btn-icon icon-pencil btn-edit">New</span></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="templates" class="hidden edit-page-content">
+      <div class="head-font edit-head-title">
+        <div class=" addrType section-title" data-localize="label.W4Info">
+          W-4 Information
+        </div>
+      </div>
+      <!--add here
+      <div class="filing-status justify top-margin">
+      <div class = "label-medium label-text right-margin">
+      <span  data-localize="template.filingStatus"> Filing Status:</span><span class="red-star hidden">*</span>
+      </div>
+      <div class="read-only hidden"></div>
+      <select enabled class = "edit-only" id="Status"></select>
+      <div class="NameInstruction" data-localize="template.alien">
+      * If married, but legally separated, or spouse is a nonresident alien, select the 'Single' option.
+      </div>
+      </div>
+      <div class="LastNameDiffer top-margin justify" >
+      <div class="label-medium label-text align-top  right-margin" data-localize="template.lastNameDiffer">
+      Your last name differs from that shown on social security card.
+      </div>
+      <div class="onoffswitch switch2 edit-only" id="w4NewSwich">
+      <input type="checkbox"  class="onoffswitch-checkbox" id="myonoffswitch1" checked="checked">
+      <label class="onoffswitch-label" for="myonoffswitch1"> <div class="w4onoffswitch-inner"></div> <div class="onoffswitch-switch"></div> </label>
+      </div>
+      <div class="NameInstruction"  data-localize="template.cardReplace">
+      *You must call 1-800-772-1213 for a replacement card.
+      </div>
+      </div>
+      <div class="AdditionalAmt top-margin justify">
+      <div class = "label-medium label-text align-middle right-margin">
+      <span data-localize="template.addamount">Additional amount, if any, you want withheld from each paycheck</span>
+      <span class="red-star hidden">*</span>
+      </div>
+      <input type="text" maxlength="9" class="input-large edit-only" id="Withheld" onkeyup="editapp.validatingNumber(this)">
+      </div>-->
+      <div class="Num_Allowances top-margin justify " data-id="Num_Allowances">
+        <div class = "label-medium label-text align-middle right-margin">
+          <span class="labelName"></span>
+          <span class="red-star hidden">*</span>
+        </div>
+        <input type="number" maxlength="2" class="input-large edit-only" id="numAllowances" onkeyup="editapp.validatingNumber(this)">
+      </div>
+      <div class="Add_Withheld top-margin justify" data-id="Add_Withheld">
+        <div class = "label-medium label-text align-middle right-margin">
+          <span class="labelName"></span>
+          <span class="red-star hidden">*</span>
+        </div>
+        <input type="number" maxlength="9" class="input-large edit-only" id="Withheld" onkeyup="editapp.validatingNumber(this)">
+      </div>
+      <div class="Num_Exemptions top-margin justify" data-id="Num_Exemptions">
+        <div class = "label-medium label-text align-middle right-margin">
+          <span class="labelName"></span>
+          <span class="red-star hidden">*</span>
+        </div>
+        <input type="number" maxlength="2" class="input-large edit-only" id="numExemptions" onkeyup="editapp.validatingNumber(this)">
+      </div>
+      <div class="Num_Pers_Exemptions top-margin justify" data-id="Num_Pers_Exemptions">
+        <div class = "label-medium label-text align-middle right-margin">
+          <span class="labelName"></span>
+          <span class="red-star hidden">*</span>
+        </div>
+        <input type="number" maxlength="2" class="input-large edit-only" id="numPersExemptions" onkeyup="editapp.validatingNumber(this)">
+      </div>
+      <div class="Num_Dep_Exemptions top-margin justify" data-id="Num_Dep_Exemptions">
+        <div class = "label-medium label-text align-middle right-margin">
+          <span class="labelName"></span>
+          <span class="red-star hidden">*</span>
+        </div>
+        <input type="number" maxlength="2" class="input-large edit-only" id="numDepExemptions" onkeyup="editapp.validatingNumber(this)">
+      </div>
+      <div class="Alternate_Formula top-margin justify" data-id="Alternate_Formula">
+        <div class = "label-medium label-text align-middle right-margin">
+          <span class="labelName"></span>
+          <span class="red-star hidden">*</span>
+        </div>
+        <select enabled class = "edit-only" id="alternateFormula">
+        </select>
+        <!--<input type="text" maxlength="1" class="input-large edit-only" id="alternateFormula" >-->
+      </div>
+      <div class="Exemption_Amount top-margin justify" data-id="Exemption_Amount">
+        <div class = "label-medium label-text align-middle right-margin">
+          <span class="labelName"></span>
+          <span class="red-star hidden">*</span>
+        </div>
+        <input type="number" maxlength="9" class="input-large edit-only" id="exemptionAmount" onkeyup="editapp.validatingNumber(this)">
+      </div>
+      <div class="TotAdd_Exemption_Amnt top-margin justify" data-id="TotAdd_Exemption_Amnt">
+        <div class = "label-medium label-text align-middle right-margin">
+          <span class="labelName"></span>
+          <span class="red-star hidden">*</span>
+        </div>
+        <input type="number" maxlength="9" class="input-large edit-only" id="totAddExemptionAmnt" onkeyup="editapp.validatingNumber(this)">
+      </div>
+      <div class="Add_Tax_Percentage top-margin justify" data-id="Add_Tax_Percentage">
+        <div class = "label-medium label-text align-middle right-margin">
+          <span class="labelName"></span>
+          <span class="red-star hidden">*</span>
+        </div>
+        <!--<select enabled class = "edit-only" id="addTaxPercentage">
+        </select>-->
+        <input type="number" maxlength="2" class="input-large edit-only" id="addTaxPercentage" onkeyup="editapp.validatingNumber(this)">
+      </div>
+      <div class="Tax_Exemption_Ind top-margin justify" data-id="Tax_Exemption_Ind">
+        <div class = "label-medium label-text align-middle right-margin">
+          <span class="labelName"></span>
+          <span class="red-star hidden">*</span>
+        </div>
+        <div class="read-only hidden"></div>
+        <select enabled class = "edit-only" id="taxExemptionInd"></select>
+      </div>
+    </div>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="CommonComp/lib/js/jquery-1.8.2.min.js"></script>
+    <script src="CommonComp/lib/js/jquery.alerts.js"></script>
+    <script src="CommonComp/lib/js/jquery.localize.js"></script>
+    <script src="CommonComp/lib/js/jquery.xml2json.js"></script>
+    <script src="CommonComp/lib/js/bootstrap.js"></script>
+    <script src="CommonComp/js/integration2.js"></script>
+    <script src="CommonComp/lib/js/iscroll.js"></script>
+    <script src="CommonComp/js/ess.js"></script>
+    <script src="ApplicationComp/W2-W4/js/w2.js"></script>
+    <script>
+      w2.initialize();
+      $(document).ready(function(){
+ $("#myw2onoffswitch").click(function(){
+   alert('am here');
+ });
+});
+    </script>
+  </body>
+</html>

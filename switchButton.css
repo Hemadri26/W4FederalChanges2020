@@ -1,0 +1,109 @@
+.onoffswitch {
+	position: relative;
+	width: 90px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	/* background-image: url(../../../CommonComp/img/buttons.png); */
+	margin-right: -20px;
+}
+.onoffswitch-checkbox {
+	display: none;
+}
+.onoffswitch-label {
+	display: block;
+	overflow: hidden;
+	cursor: pointer;
+	border: 2px solid #999999;
+	border-radius: 20px;
+}
+.onoffswitch-inner, .w4onoffswitch-inner {
+	width: 220%;
+	margin-left: -120%;
+	-moz-transition: margin 0.3s ease-in 0s;
+	-webkit-transition: margin 0.3s ease-in 0s;
+	-o-transition: margin 0.3s ease-in 0s;
+	transition: margin 0.3s ease-in 0s;
+	/* 	display:inline block;
+	 background-position:0 0;
+	 background-size:50% 50%;
+	 background-repeat:no-repeat;
+	 background-color: rbg(31 173 233); */
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+	float: left;
+	width: 50%;
+	height: 30px;
+	padding: 0;
+	line-height: 30px;
+	font-size: 12px;
+	color: white;
+	font-family: Trebuchet, Arial, sans-serif;
+	font-weight: bold;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.w4onoffswitch-inner:before, .w4onoffswitch-inner:after {
+	float: left;
+	width: 50%;
+	height: 30px;
+	padding: 0;
+	line-height: 30px;
+	font-size: 12px;
+	color: white;
+	font-family: Trebuchet, Arial, sans-serif;
+	font-weight: bold;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+	content: "ONLINE";
+	padding-left: 10px;
+	background-color: #6aafd9;
+	color: #FFFFFF;
+}
+.w4onoffswitch-inner:before {
+	content: "NO";
+	padding-left: 10px;
+	background-color: #6aafd9;
+	color: #FFFFFF;
+	padding-left: 22px;
+}
+.onoffswitch-inner:after {
+	content: "PAPER";
+	padding-right: 10px;
+	background-color: #A8A3A3;
+	color: #FFFFFF;
+	text-align: right;
+}
+.w4onoffswitch-inner:after {
+	content: "YES";
+	padding-right: 10px;
+	background-color: #A8A3A3;
+	color: #FFFFFF;
+	text-align: right;
+	padding-right: 22px;
+}
+.onoffswitch-switch,.w2onoffswitch-switch {
+	width: 28px;
+	margin: 1px;
+	background: #FFFFFF;
+	border: 2px solid #999999;
+	border-radius: 20px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 56px;
+	-moz-transition: all 0.3s ease-in 0s;
+	-webkit-transition: all 0.3s ease-in 0s;
+	-o-transition: all 0.3s ease-in 0s;
+	transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .w4onoffswitch-inner {
+	margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+	right: 0px;
+}

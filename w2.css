@@ -1,0 +1,225 @@
+/* TempChanges ESS V2 */
+.show {
+	display: inline-block !important;
+}
+.hide {
+	display: none !important;
+}
+.pages {
+	display: none;
+}
+/* display & edit */
+.label-text {
+	display: inline-block;
+	width: 30%;
+}
+.full-width {
+	width: 100%;
+}
+.pull-right {
+	margin-top: -0px;//changed from -10 to 0
+}
+.read-only {
+	font-weight: bold;
+}
+/* Overrriding CSS */
+.section-title {
+	height: 30px;
+	margin-top: 0px;
+}
+/* Begin of change CHG1085356 */
+.section-title1 {
+	height: 30px;
+	margin-top: 0px;
+}
+/*End of change CHG1085356 */
+.grey-background {
+	padding-top: 0px;
+}
+/* ESS V1*/
+
+.btn-icon {
+	display: inline block;
+	width: 107px;
+	height: 45px;
+	background-size: 250px auto;
+	background-image: url(../../../CommonComp/img/buttons.png);
+	background-repeat: no-repeat;
+}
+.btn-view {
+	background-position: 0 0;
+	color: white;
+	font-size: 15px;
+	line-height: 45px;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+	position: absolute;
+	right: 5px;
+	bottom: 0px;
+}
+.btn-edit {
+	background-position: 0 0;
+	color: white;
+	font-size: 15px;
+	line-height: 45px;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+#scroll-wrapper {
+	position: relative;
+}
+.hero-unit {
+	padding-bottom: 20px;
+	margin-bottom: 0px;
+}
+.head-font {
+	padding: 2px 0px;
+	line-height: 20px;
+}
+div,body{
+/*	-webkit-backface-visibility: hidden;*/
+}
+#inner-content.overview #overview-page {
+	display: block;
+}
+#inner-content.overview #inner-content.overview #review-page, #inner-content.overview #confirm-page {
+	display: none;
+}
+#inner-content.edit #edit-page {
+	display: block;
+}
+#inner-content.edit #overview-page, #inner-content.edit #review-page, #inner-content.edit #confirm-page {
+	display: none;
+}
+#inner-content.review #review-page {
+	display: block;
+}
+#inner-content.review #edit-page, #inner-content.review #overview-page, #inner-content.review #confirm-page {
+	display: none;
+}
+#inner-content.confirm #confirm-page {
+	display: block;
+}
+#inner-content.confirm #overview-page, #inner-content.confirm #edit-page, #inner-content.confirm #review-page {
+	display: none;
+}
+@media screen and (width: 768px) {
+	#scroll-wrapper {
+		position: relative;
+	}
+}
+.tax-company-div {
+	margin-top: 5px;
+	min-height: 40px;
+}
+.switch-margin {
+	margin-top: 0px;
+}
+.switch-margin1 {
+	margin-top: -30px;
+	margin-right: -110px
+}
+.jqxButton {
+	display: inline block;
+	width: 177px;
+	height: 30px;
+	background-size: 250px auto;
+	background-image: url(../../../CommonComp/img/buttons.png);
+	background-repeat: no-repeat;
+}
+.collapsible-div {
+	margin-bottom: 10px;
+	position: relative;
+}
+.collapsible-div-content {
+	margin-left: 10px;
+	display: none;
+	width: 100%;
+	min-height: 50px;
+}
+.collapsible-div .section-title img {
+	margin-left: 40px;
+}
+.label-left-margin {
+	margin-top: 10px;
+}
+.label-election-left-margin {
+	margin-left: 30px;
+}
+.radio-set-margin {
+	margin-top: 0px !important;
+	height: 40px;
+	width: 18px !important;
+	margin-left: -12px !important;
+}
+.btn-next {
+	margin-top: -47px;
+	cursor: pointer;
+}
+.NameInstruction {
+	float: right;
+	width: 30%;
+}
+#w4NewSwich {
+	display: inline-block;
+}
+div.onoffswitch-switch {
+	height: 28px;
+}
+input.input-large.edit-only {
+	height: 28px;
+}
+#w4Info {
+	font-weight: bold;
+	border: 2px solid #157AB5;
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 97%;
+	display:inline-block;
+}
+#Info {
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+}
+.filling-status {
+	display: inline-block;
+}
+#Status {
+	height: 36px;
+}
+.align-top {
+	vertical-align: top;
+}
+.align-middle {
+	vertical-align: middle;
+}
+div#AlienSwitch.switch1 {
+	display: inline-block;
+}
+.right-margin {
+	margin-right: 35px;
+}
+.top-margin {
+	padding-top: 8px;
+}
+.justify {
+	text-align: justify;
+	
+}
+#btn-edit-cancel,#W4FooterButton{
+	margin-left:10px;
+}
+div.LastNameDiffer.top-margin.justify{
+	display:inline-block;
+}
+#confirmationCheckbox{
+	height: 25px;
+	width: 25px;
+}
+.edit-table{
+	width: 100%;
+}
